@@ -13,7 +13,7 @@ public class PlayersBet: BasePlugin
 	public override string ModuleAuthor => "Dliix66";
 	public override string ModuleDescription => "Allow players to bet money on a team for the round.";
 
-	public string prefix = $"[{ChatColors.Green}BotSlay{ChatColors.Default}]";
+	public string prefix = $"[{ChatColors.Green}PlayersBet{ChatColors.Default}]";
 
 	private Dictionary<ulong, BetData> _currentBets = new Dictionary<ulong, BetData>();
 
