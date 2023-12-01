@@ -27,7 +27,7 @@ public class PlayersBet: BasePlugin
 	}
 
 	[GameEventHandler]
-	public HookResult OnRoundEnd(EventRoundStart evnt, GameEventInfo info)
+	public HookResult OnRoundStart(EventRoundStart evnt, GameEventInfo info)
 	{
 		_currentBets.Clear();
 		return HookResult.Continue;
