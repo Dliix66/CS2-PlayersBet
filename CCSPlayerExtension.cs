@@ -24,7 +24,7 @@ namespace PlayersBet
 			//}
 
 			player.InGameMoneyServices.Account = finalAmount;
-			// TODO: @val: Refresh money HUD with userMessages once available in CSSharp
+			StateChanger.UpdateMoney(player);
 		}
 	}
 }
