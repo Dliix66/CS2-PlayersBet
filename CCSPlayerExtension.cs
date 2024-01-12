@@ -21,7 +21,6 @@ namespace PlayersBet
 			{
 				int extra = finalAmount - 16000;
 				Server.ExecuteCommand($"wcs_mark_extra_money {player.SteamID} {extra}");
-				Server.PrintToChatAll($"Extra money has been marked for WCS2: {player.PlayerName} ({player.SteamID}) => ${extra}.");
 				finalAmount = 16000;
 			}
 
