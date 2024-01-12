@@ -17,11 +17,13 @@ namespace PlayersBet
 			{
 				finalAmount = 0;
 			}
-			// TODO: @val: Add config to set max money
-			//else if (finalAmount > 16000)
-			//{
-			//	finalAmount = 16000;
-			//}
+			else if (finalAmount > 16000)
+			{
+				int extra = finalAmount - 16000;
+				Server.ExecuteCommand($"wcs_mark_extra_money {player.SteamID} {extra}");
+				Server.PrintToChatAll($"Extra money has been marked for WCS2: {player.PlayerName} ({player.SteamID}) => ${extra}.");
+				finalAmount = 16000;
+			}
 
 			player.InGameMoneyServices.Account = finalAmount;
 			StateChanger.UpdateMoney(player);
