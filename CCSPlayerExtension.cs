@@ -1,7 +1,4 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Memory;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace PlayersBet
 {
@@ -17,11 +14,6 @@ namespace PlayersBet
 			{
 				finalAmount = 0;
 			}
-			// TODO: @val: Add config to set max money
-			//else if (finalAmount > 16000)
-			//{
-			//	finalAmount = 16000;
-			//}
 
 			player.InGameMoneyServices.Account = finalAmount;
 			StateChanger.UpdateMoney(player);
