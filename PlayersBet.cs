@@ -114,9 +114,9 @@ public class PlayersBet: BasePlugin
 			return;
 		}
 
-		if (player.PawnIsAlive == false)
+		if (player.PawnIsAlive)
 		{
-			player.PrintToChat($"{prefix} Can not bet while dead...");
+			player.PrintToChat($"{prefix} Can not bet while alive...");
 			return;
 		}
 
