@@ -17,6 +17,8 @@ public class PlayersBet: BasePlugin
 
 	private Dictionary<ulong, BetData> _currentBets = new Dictionary<ulong, BetData>();
 
+	private bool _isInRound = false;
+
 	public override void Load(bool hotReload)
 	{
 		base.Load(hotReload);
@@ -29,6 +31,7 @@ public class PlayersBet: BasePlugin
 	[GameEventHandler]
 	public HookResult OnRoundStart(EventRoundStart evnt, GameEventInfo info)
 	{
+		_isInRound = true;
 		_currentBets.Clear();
 		return HookResult.Continue;
 	}
@@ -57,6 +60,8 @@ public class PlayersBet: BasePlugin
 				player.PrintToChat($"{prefix} You lost your bet...");
 			}
 		}
+
+		_isInRound = false;
 
 		return HookResult.Continue;
 	}
@@ -100,6 +105,24 @@ public class PlayersBet: BasePlugin
 		else if (Int32.TryParse(amountArg, out amount) == false)
 		{
 			player.PrintToChat(usage);
+			return;
+		}
+
+		if (player.TeamNum == (byte)CsTeam.Spectator || player.TeamNum == (byte)CsTeam.None)
+		{
+			player.PrintToChat($"{prefix} Can not bet while spectating...");
+			return;
+		}
+
+		if (player.PawnIsAlive)
+		{
+			player.PrintToChat($"{prefix} Can not bet while alive...");
+			return;
+		}
+
+		if (_isInRound == false)
+		{
+			player.PrintToChat($"{prefix} Can not bet out of a round...");
 			return;
 		}
 
