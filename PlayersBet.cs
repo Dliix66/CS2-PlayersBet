@@ -108,6 +108,18 @@ public class PlayersBet: BasePlugin
 			return;
 		}
 
+		if (player.TeamNum == (byte)CsTeam.Spectator || player.TeamNum == (byte)CsTeam.None)
+		{
+			player.PrintToChat($"{prefix} Can not bet while spectating...");
+			return;
+		}
+
+		if (player.PawnIsAlive == false)
+		{
+			player.PrintToChat($"{prefix} Can not bet while dead...");
+			return;
+		}
+
 		if (_isInRound == false)
 		{
 			player.PrintToChat($"{prefix} Can not bet out of a round...");
