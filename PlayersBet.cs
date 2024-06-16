@@ -175,7 +175,7 @@ public class PlayersBet: BasePlugin
 
 			if (player.TeamNum == (byte)CsTeam.Terrorist)
 				tAlive++;
-			else
+			else if (player.TeamNum == (byte)CsTeam.CounterTerrorist)
 				ctAlive++;
 		}
 
