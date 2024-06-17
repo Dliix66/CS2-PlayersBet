@@ -160,7 +160,7 @@ public class PlayersBet: BasePlugin
 
 	private int CalculateBet(int amount, CsTeam teamBet)
 	{
-		List<CCSPlayerController> allPlayers = Utilities.GetPlayers();
+		List<CCSPlayerController> allPlayers = Utilities.GetPlayers().Where(p => p.IsValid && p.Connected == PlayerConnectedState.PlayerConnected).ToList();
 		int tAlive = 0;
 		int ctAlive = 0;
 		foreach (CCSPlayerController player in allPlayers)
