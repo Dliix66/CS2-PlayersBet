@@ -25,7 +25,7 @@ public class PlayersBet: BasePlugin
 
 		AddCommand("bet", "bet", CommandBet);
 
-		Server.PrintToChatAll($"{prefix} Plugin {(hotReload ? "hot-re" : "")}loaded!");
+		Server.NextFrame(() => { Server.PrintToChatAll($"{prefix} Plugin {(hotReload ? "hot-re" : "")}loaded!"); });
 	}
 
 	[GameEventHandler]
