@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace PlayersBet;
 
@@ -12,8 +13,6 @@ public class PlayersBet: BasePlugin
 	public override string ModuleVersion => "1.1.1";
 	public override string ModuleAuthor => "Dliix66";
 	public override string ModuleDescription => "Allow players to bet money on a team for the round.";
-
-	public string prefix = $"[{ChatColors.Green}PlayersBet{ChatColors.Default}]";
 
 	private Dictionary<ulong, BetData> _currentBets = new Dictionary<ulong, BetData>();
 
@@ -25,8 +24,8 @@ public class PlayersBet: BasePlugin
 
 		AddCommand("bet", "bet", CommandBet);
 
-		Server.NextFrame(() => { Server.PrintToChatAll($"{prefix} Plugin {(hotReload ? "hot-re" : "")}loaded!"); });
-	}
+		Server.NextFrame(() => { Logger.LogInformation($"Loaded! (version {ModuleVersion})"); });
+    }
 
 	[GameEventHandler]
 	public HookResult OnRoundStart(EventRoundStart evnt, GameEventInfo info)
@@ -53,12 +52,13 @@ public class PlayersBet: BasePlugin
 			{
 				int total = currentBet.Value.earnings + currentBet.Value.amountBet;
 				player.AddMoney(total);
-				player.PrintToChat($"{prefix} You won ${currentBet.Value.earnings} for your ${currentBet.Value.amountBet} bet!");
-			}
+                player.PrintToChat($"{Localizer["bet.win", currentBet.Value.earnings, currentBet.Value.amountBet]}");
+
+            }
 			else
 			{
-				player.PrintToChat($"{prefix} You lost your bet...");
-			}
+                player.PrintToChat($"{Localizer["bet.lost"]}");
+            }
 		}
 
 		_isInRound = false;
@@ -71,9 +71,10 @@ public class PlayersBet: BasePlugin
 		if (player.IsValid == false || player.InGameMoneyServices == null)
 			return;
 
-		string usage = $"{prefix} Usage: {commandInfo.GetArg(0)} <t/ct> <amount/half/all>";
+		string usage = $"{Localizer["bet.usage", commandInfo.GetArg(0)]}";
 
-		if (!IsCommandValid(player, commandInfo, 2, usage))
+
+        if (!IsCommandValid(player, commandInfo, 2, usage))
 			return;
 
 		string teamArg = commandInfo.GetArg(1).ToLower();
@@ -110,40 +111,40 @@ public class PlayersBet: BasePlugin
 
 		if (player.TeamNum == (byte)CsTeam.Spectator || player.TeamNum == (byte)CsTeam.None)
 		{
-			player.PrintToChat($"{prefix} Can not bet while spectating...");
+			player.PrintToChat($"{Localizer["bet.spectate"]}");
 			return;
 		}
 
 		if (player.PawnIsAlive)
 		{
-			player.PrintToChat($"{prefix} Can not bet while alive...");
-			return;
+            player.PrintToChat($"{Localizer["bet.alive"]}");
+            return;
 		}
 
 		if (_isInRound == false)
 		{
-			player.PrintToChat($"{prefix} Can not bet out of a round...");
-			return;
+            player.PrintToChat($"{Localizer["bet.round"]}");
+            return;
 		}
 
 		if (amount > player.InGameMoneyServices.Account)
 		{
-			player.PrintToChat($"{prefix} Can not bet this much...");
-			return;
+            player.PrintToChat($"{Localizer["bet.toomuch"]}");
+            return;
 		}
 
 		ulong steamId = player.SteamID;
 		if (_currentBets.ContainsKey(steamId))
 		{
-			player.PrintToChat($"{prefix} You already placed a bet for this round.");
-			return;
+            player.PrintToChat($"{Localizer["bet.alreadybet"]}");
+            return;
 		}
 
 		int earnings = CalculateBet(amount, team);
 		if (earnings <= 0)
 		{
-			player.PrintToChat($"{prefix} Can not bet now.");
-			return;
+            player.PrintToChat($"{Localizer["bet.cantnow"]}");
+            return;
 		}
 
 		player.AddMoney(-amount);
@@ -155,8 +156,9 @@ public class PlayersBet: BasePlugin
 			team = team
 		});
 
-		player.PrintToChat($"{prefix} You would earn ${earnings} if you win your ${amount} bet.");
-	}
+        player.PrintToChat($"{Localizer["bet.estimated", earnings, amount]}");
+
+    }
 
 	private int CalculateBet(int amount, CsTeam teamBet)
 	{

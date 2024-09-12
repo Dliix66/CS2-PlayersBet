@@ -1,0 +1,15 @@
+{
+  "bet.win": "{green}[PlayerBets] {default}You won {0} for your {1} bet!",
+  "bet.lost": "{green}[PlayerBets] {default}You lost your bet...",
+
+  "bet.usage": "{green}[PlayerBets] {default}Usage: {0} <t/ct> <amount/half/all>",
+
+  "bet.spectate": "{green}[PlayerBets] {default}Can not bet while spectating...",
+  "bet.alive": "{green}[PlayerBets] {default}Can not bet while alive...",
+  "bet.round": "{green}[PlayerBets] {default}Can not bet out of a round...",
+  "bet.toomuch": "{green}[PlayerBets] {default}Can not bet this much...",
+  "bet.alreadybet": "{green}[PlayerBets] {default}You already placed a bet for this round.",
+  "bet.cantnow": "{green}[PlayerBets] {default}Can not bet now.",
+  "bet.estimated": "{green}[PlayerBets] {default}You would earn {0} if you win your {1} bet."
+
+}
