@@ -9,7 +9,7 @@ namespace PlayersBet;
 public class PlayersBet: BasePlugin
 {
 	public override string ModuleName => "PlayersBet";
-	public override string ModuleVersion => "1.1.1";
+	public override string ModuleVersion => "1.1.2";
 	public override string ModuleAuthor => "Dliix66";
 	public override string ModuleDescription => "Allow players to bet money on a team for the round.";
 
