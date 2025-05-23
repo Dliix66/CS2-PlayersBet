@@ -43,6 +43,11 @@ public class PlayersBet: BasePlugin
 		if (winningTeam == CsTeam.Spectator || winningTeam == CsTeam.None)
 			return HookResult.Continue;
 
+		int winnersCount = 0;
+		int winnersTotal = 0;
+		int loosersCount = 0;
+		int loosersTotal = 0;
+
 		foreach (KeyValuePair<ulong, BetData> currentBet in _currentBets)
 		{
 			CCSPlayerController player = currentBet.Value.player;
@@ -54,16 +59,45 @@ public class PlayersBet: BasePlugin
 				int total = currentBet.Value.earnings + currentBet.Value.amountBet;
 				player.AddMoney(total);
 				player.PrintToChat($"{prefix} You won ${currentBet.Value.earnings} for your ${currentBet.Value.amountBet} bet!");
+
+				winnersCount++;
+				winnersTotal += total;
 			}
 			else
 			{
 				player.PrintToChat($"{prefix} You lost your bet...");
+				loosersCount++;
+				loosersTotal += currentBet.Value.amountBet;
 			}
 		}
 
 		_isInRound = false;
 
+		if (winnersCount + loosersCount > 0)
+			AddTimer(1, () => PrintBetResult(winnersCount, winnersTotal, loosersCount, loosersTotal));
+
 		return HookResult.Continue;
+	}
+
+	private void PrintBetResult(int winnersCount, int winnersTotal, int loosersCount, int loosersTotal)
+	{
+		if (winnersCount + loosersCount <= 0)
+			return;
+
+		string message = "";
+		if (winnersCount > 0)
+		{
+			message = $"{ChatColors.Olive}{winnersCount} player{(winnersCount > 1 ? "s" : "")} won ${winnersTotal}{ChatColors.Default}";
+		}
+
+		if (loosersCount > 0)
+		{
+			if (winnersCount > 0)
+				message += " and ";
+			message += $"{ChatColors.LightRed}{loosersCount} player{(loosersCount > 1 ? "s" : "")} lost ${loosersTotal}{ChatColors.Default}";
+		}
+
+		Server.PrintToChatAll($"{prefix} {message}!");
 	}
 
 	private void CommandBet(CCSPlayerController player, CommandInfo commandInfo)
