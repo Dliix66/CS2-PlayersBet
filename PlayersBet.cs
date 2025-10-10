@@ -66,9 +66,9 @@ public class PlayersBet: BasePlugin
 		return HookResult.Continue;
 	}
 
-	private void CommandBet(CCSPlayerController player, CommandInfo commandInfo)
+	private void CommandBet(CCSPlayerController? player, CommandInfo commandInfo)
 	{
-		if (player.IsValid == false || player.InGameMoneyServices == null)
+		if (player == null || player.IsValid == false || player.InGameMoneyServices == null)
 			return;
 
 		string usage = $"{Localizer["bet.usage", commandInfo.GetArg(0)]}";
@@ -172,7 +172,7 @@ public class PlayersBet: BasePlugin
 				continue;
 
 			// dead
-			if (player.PlayerPawn.IsValid == false || player.PlayerPawn.Value.Health <= 0)
+			if (player.PlayerPawn.IsValid == false || player.PlayerPawn.Value?.Health <= 0)
 				continue;
 
 			if (player.TeamNum == (byte)CsTeam.Terrorist)

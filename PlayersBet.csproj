@@ -9,5 +9,9 @@
   <ItemGroup>
     <PackageReference Include="CounterStrikeSharp.API" Version="*" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <None Update="lang\**\*.*" CopyToOutputDirectory="PreserveNewest" />
+   </ItemGroup>
 
 </Project>
