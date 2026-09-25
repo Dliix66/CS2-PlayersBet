@@ -23,7 +23,8 @@ namespace PlayersBet
 			}
 
 			player.InGameMoneyServices.Account = finalAmount;
-			StateChanger.UpdateMoney(player);
+			// Network the new amount so the HUD refreshes right away
+			Utilities.SetStateChanged(player, "CCSPlayerController", "m_pInGameMoneyServices");
 		}
 	}
 }

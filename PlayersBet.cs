@@ -9,7 +9,7 @@ namespace PlayersBet;
 public class PlayersBet: BasePlugin
 {
 	public override string ModuleName => "PlayersBet";
-	public override string ModuleVersion => "1.1.2";
+	public override string ModuleVersion => "1.1.3";
 	public override string ModuleAuthor => "Dliix66";
 	public override string ModuleDescription => "Allow players to bet money on a team for the round.";
 
@@ -194,7 +194,7 @@ public class PlayersBet: BasePlugin
 
 	private int CalculateBet(int amount, CsTeam teamBet)
 	{
-		List<CCSPlayerController> allPlayers = Utilities.GetPlayers().Where(p => p.IsValid && p.Connected == PlayerConnectedState.PlayerConnected).ToList();
+		List<CCSPlayerController> allPlayers = Utilities.GetPlayers().Where(p => p.IsValid && p.Connected == PlayerConnectedState.Connected).ToList();
 		int tAlive = 0;
 		int ctAlive = 0;
 		foreach (CCSPlayerController player in allPlayers)
